@@ -64,3 +64,6 @@ This structure enables seamless comparison between revenue and operational costs
 
 **Role:** Product & Behavioral Data Analyst  
 **Tools:** Python (pandas, SQLAlchemy), SQL (MySQL), Power BI (DAX), Git
+
+<img width="726" height="439" alt="image" src="https://github.com/user-attachments/assets/6e417ce4-69c7-4b63-b2b9-d61e7a64e82a" />
+
