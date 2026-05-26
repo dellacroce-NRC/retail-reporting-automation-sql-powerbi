@@ -68,6 +68,8 @@ Power BI model refresh and report update
 +-- revisión_datos.sql
 +-- insertar_nuevos_datos.py
 +-- Retail_Intelligence_Dashboard.pbix
++-- requirements.txt
++-- .env.example
 +-- README.md
 ```
 
@@ -77,6 +79,8 @@ Power BI model refresh and report update
 - `revisión_datos.sql`: contains SQL queries used to inspect the database and validate business metrics such as record counts, product sales, branch revenue, branch costs and branch-level profit.
 - `insertar_nuevos_datos.py`: inserts additional records into MySQL from CSV files to simulate new data being added to the reporting database.
 - `Retail_Intelligence_Dashboard.pbix`: Power BI report connected to the MySQL database.
+- `requirements.txt`: Python dependencies needed to run the insertion script.
+- `.env.example`: example environment variables for the local MySQL connection.
 
 ## Metrics Validated in SQL
 
@@ -111,6 +115,8 @@ Its role is to validate the reporting workflow:
 3. The dashboard reflects the updated database state.
 
 This demonstrates the practical benefit of connecting a dashboard to a relational source instead of rebuilding reports manually from static files.
+
+To run the script locally, install the Python dependencies and create a local `.env` file based on `.env.example` with your own MySQL credentials. The real `.env` file should not be committed to the repository.
 
 ## Tools Used
 
