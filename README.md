@@ -1,64 +1,65 @@
 # Retail Reporting Automation with SQL and Power BI
-### From SQL Metric Validation to Refreshable Business Dashboards
+### Building a Refreshable Commercial Dashboard from a MySQL Reporting Source
 
 ## Executive Summary
 
-This project demonstrates a practical retail reporting workflow built around a relational MySQL database connected to Power BI. The objective was to move from static reporting logic toward a refreshable dashboard model, where commercial metrics are validated in SQL and then reproduced in Power BI as a business-facing report.
+This project presents a retail reporting workflow designed to make commercial analysis more reliable, traceable and easier to refresh. A relational MySQL database is used as the reporting source, SQL queries validate the main business metrics, and Power BI turns those validated results into an interactive dashboard for sales, cost and branch performance analysis.
 
-The project follows a guided analytics sequence:
+The workflow connects three common analyst responsibilities in one portfolio case: structuring business data, validating metrics before visualization, and delivering a dashboard that can be refreshed when new records are added to the database.
 
-1. Create a relational retail database in MySQL using SQL scripts.
-2. Validate sales, cost, product and branch metrics through SQL queries.
-3. Build a Power BI dashboard connected to the MySQL database.
-4. Reconcile Power BI visuals and measures against the SQL query results.
-5. Insert new records into the database with a Python script to test whether the dashboard can reflect updated data after refreshing the model.
-
-The focus is not advanced ETL or end-to-end data engineering. The value of the project is in showing how SQL can act as the source of truth for recurring business reporting, while Power BI becomes the visualization and decision-support layer.
+The result is a reporting setup where business users can review sales performance, product movement, regional behavior and branch-level profitability from a dashboard whose numbers can be traced back to SQL.
 
 ## Business Context
 
-Many commercial reports are rebuilt manually from spreadsheets or static exports, which makes it harder to keep metric definitions consistent over time. This project simulates a more reliable reporting setup: business data lives in a relational database, metric logic is first validated with SQL, and the dashboard is refreshed from the same source.
+Retail teams often need recurring visibility into sales, costs, products and store performance. When reporting depends on static files or repeated manual updates, metric definitions can drift and dashboards become harder to trust.
 
-For a retail team, this type of workflow can support recurring questions such as:
+This project simulates a more controlled reporting process: commercial data is stored in MySQL, analytical checks are performed in SQL, and Power BI is connected directly to the database as the visualization layer. The workflow supports a practical reporting question: how can a retail dashboard stay aligned with the underlying business data as new records are added?
 
-- Which branches generate the highest sales?
-- Which products sell the most units?
-- How do sales and costs compare by branch?
-- Which locations show stronger or weaker commercial performance?
-- Does the report update correctly when new transactional records are added?
+## Business Questions Addressed
 
-## What This Project Demonstrates
+- Which branches generate the highest revenue?
+- Which products concentrate the most sales volume?
+- How do sales and costs compare across branches?
+- Which locations show stronger commercial performance?
+- Do Power BI visuals remain consistent with the SQL-validated metrics?
+- Can the report reflect new database records after refreshing the model?
 
-- Using MySQL as a structured source for retail reporting.
-- Creating relational tables for branches, products, sales and costs.
-- Validating business metrics directly with SQL before visualization.
-- Building a Power BI dashboard connected to the database.
-- Checking consistency between SQL query outputs and Power BI visuals.
-- Using Python to insert additional records and test dashboard refresh behavior.
-
-## Analytical Workflow
+## Project Workflow
 
 ```text
-MySQL database creation
+Create MySQL retail database
         |
         v
-SQL metric validation
+Load sample sales, cost, product and branch data
         |
         v
-Power BI connection to MySQL
+Validate commercial metrics with SQL queries
         |
         v
-Dashboard construction
+Connect Power BI to MySQL
         |
         v
-Metric reconciliation between SQL and Power BI
+Build dashboard views for sales and performance analysis
         |
         v
-Python-based insertion of new records
+Compare dashboard results against SQL outputs
         |
         v
-Power BI model refresh and report update
+Insert new records with Python
+        |
+        v
+Refresh Power BI model and confirm report update
 ```
+
+## What the Project Demonstrates
+
+- A SQL-centered reporting workflow for recurring commercial analysis.
+- Use of MySQL as a structured source for sales, cost, product and branch data.
+- Metric validation in SQL before building dashboard visuals.
+- Consistency checks between SQL outputs and Power BI results.
+- A Power BI report connected to the database instead of a static spreadsheet export.
+- A Python-based loading test to simulate new records entering the reporting source.
+- Basic credential hygiene through environment variables for the local MySQL connection.
 
 ## Repository Structure
 
@@ -73,18 +74,18 @@ Power BI model refresh and report update
 +-- README.md
 ```
 
-### Main Files
+## Main Files
 
-- `ventas_costos.sql`: creates the MySQL database, defines the core retail tables and loads the initial sample data.
-- `revisión_datos.sql`: contains SQL queries used to inspect the database and validate business metrics such as record counts, product sales, branch revenue, branch costs and branch-level profit.
-- `insertar_nuevos_datos.py`: inserts additional records into MySQL from CSV files to simulate new data being added to the reporting database.
+- `ventas_costos.sql`: creates the MySQL database, defines the retail tables and loads the initial sample data.
+- `revisión_datos.sql`: contains SQL queries for inspecting tables and validating commercial metrics.
+- `insertar_nuevos_datos.py`: inserts additional records into MySQL from CSV files to test report refresh behavior.
 - `Retail_Intelligence_Dashboard.pbix`: Power BI report connected to the MySQL database.
 - `requirements.txt`: Python dependencies needed to run the insertion script.
-- `.env.example`: example environment variables for the local MySQL connection.
+- `.env.example`: template for local MySQL connection variables.
 
 ## Metrics Validated in SQL
 
-The SQL validation layer checks the structure and results behind the dashboard. Examples include:
+The SQL validation layer provides a source-level reference for the dashboard. The queries review:
 
 - Total records by table.
 - Product category distribution.
@@ -92,49 +93,42 @@ The SQL validation layer checks the structure and results behind the dashboard. 
 - Top-selling products by quantity sold.
 - Total revenue by branch.
 - Total costs by branch.
-- Estimated profit by branch, calculated as sales minus costs.
+- Branch-level profit calculated from sales and costs.
 
-These queries provide a traceable baseline for checking whether Power BI visuals are aligned with the database results.
+This validation step is important because it keeps the dashboard grounded in explicit business logic. The Power BI report is not treated as a black box: its numbers can be checked against SQL outputs.
 
 ## Power BI Dashboard
 
-The Power BI report was built as the reporting layer on top of the MySQL database. Its purpose is to make the validated SQL metrics easier to explore through business visuals.
+The Power BI dashboard provides a business-facing view of the MySQL reporting source. It summarizes sales, costs, products and branch performance so the user can move from raw transactional records to a clearer commercial readout.
 
-The dashboard supports commercial analysis across branches, products, regions, sales and costs. The important design principle is consistency: the dashboard should reflect the same business definitions validated in SQL, instead of becoming a separate layer with disconnected calculations.
+The dashboard was built with a simple principle: every visual should represent a metric that can be explained and validated from the database. This makes the report easier to defend in review, easier to maintain, and more useful for recurring business analysis.
 
 <img width="726" height="439" alt="Retail Power BI dashboard screenshot" src="https://github.com/user-attachments/assets/6e417ce4-69c7-4b63-b2b9-d61e7a64e82a" />
 
-## Python Loading Test
+## Refresh Test with Python
 
-The Python script is used to simulate the insertion of new retail records into MySQL. This is a simple loading test, not a complex ETL pipeline.
+The Python script simulates the arrival of new data by inserting additional records into MySQL from CSV files. After the database is updated, the Power BI model can be refreshed to confirm that the report reflects the new state of the source.
 
-Its role is to validate the reporting workflow:
+This step demonstrates the practical value of connecting a dashboard to a database: the report can evolve with the underlying data while preserving a clear validation path through SQL.
 
-1. New records are inserted into the database.
-2. Power BI refreshes the model.
-3. The dashboard reflects the updated database state.
-
-This demonstrates the practical benefit of connecting a dashboard to a relational source instead of rebuilding reports manually from static files.
-
-To run the script locally, install the Python dependencies and create a local `.env` file based on `.env.example` with your own MySQL credentials. The real `.env` file should not be committed to the repository.
+To run the script locally, install the Python dependencies and create a local `.env` file based on `.env.example` with your own MySQL credentials. The real `.env` file should remain outside version control.
 
 ## Tools Used
 
-- **MySQL:** relational database used as the reporting source.
-- **SQL:** database creation, metric validation and business analysis queries.
+- **MySQL:** relational database and reporting source.
+- **SQL:** database creation, metric validation and commercial analysis queries.
 - **Power BI:** dashboard development and reporting layer.
-- **DAX:** measures and KPI logic inside the Power BI model.
-- **Python:** script-based insertion of additional records for refresh testing.
-- **pandas / MySQL connector:** CSV reading and database insertion support.
+- **DAX:** KPI and measure logic inside the report.
+- **Python:** insertion script used to test report refresh behavior.
+- **pandas / MySQL Connector:** CSV reading and database insertion.
+- **python-dotenv:** local environment variable management.
 
 ## Role
 
-This project was adapted from a guided data analytics course and structured as a portfolio case focused on reporting automation. My role was to build and validate the workflow across SQL, MySQL, Power BI and Python, with emphasis on metric consistency and dashboard refresh behavior.
+This project was adapted from a guided analytics course and developed into a portfolio case focused on SQL-based metric validation and refreshable business reporting. My role covered the full analytical workflow: creating the database, validating commercial metrics in SQL, building the Power BI report, checking consistency across tools, and using Python to test how the report responds when the database receives new records.
 
-The project is intentionally positioned as a practical analytics and reporting automation exercise, not as an advanced data engineering pipeline.
+## Key Takeaway
 
-## Key Learning Outcome
+The main takeaway is that reliable reporting depends on more than visual design. A dashboard becomes more useful when its metrics are validated at the source, its calculations are traceable, and its data model can be refreshed as new records enter the system.
 
-The main learning outcome was understanding how recurring business reporting becomes more reliable when metrics are validated at the database level and then visualized from the same source.
-
-By comparing SQL query outputs with Power BI visuals, the project reinforces a key analytics practice: dashboards should not only be visually clear; their numbers should be traceable, reproducible and connected to the source data.
+This project shows a practical foundation for commercial reporting automation: SQL defines and validates the business logic, MySQL stores the reporting data, Power BI communicates the results, and Python supports a simple refresh test for new records.
